@@ -176,6 +176,10 @@ ul{
     margin-right: 18px;
 
 }
+.hidden{
+    display: none;
+}
+/* reponsive */
 @media (max-width:1000px){
     body{
         padding: 32px 48px;
