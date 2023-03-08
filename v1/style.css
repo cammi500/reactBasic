@@ -1,0 +1,201 @@
+*{
+    margin: 0;
+    padding: 0;
+   box-sizing: border-box;
+}
+body{
+    background-color: #0f172a;
+    color: #fafaf9;
+    padding: 48px 64px;
+}
+.container{
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    gap:16px;
+}
+.logo img{
+    width:68px;
+    height: 68px;
+}
+h1{
+    font-size: 42px;
+    text-transform: uppercase;
+    text-align: center;
+    font-family: "Coiny",sans-serif;
+    
+}
+
+
+
+.header{
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.fact-form{
+    background-color: #404040;
+    margin-bottom: 40px;
+    padding: 16px 30px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-radius: 16px;
+
+}
+.main{
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap:48px;
+}
+ .fact{
+    font-size: 20px;
+    font-family:  "sono" ,sans-serif;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background-color: #404040;
+    margin-bottom: 16px;
+    padding:16px 32px;
+
+}
+
+@media (max-width:1200px){
+    .fact{
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-end;
+    }
+}
+.vote-btn{
+    margin-left:auto ;
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+.tag{
+    font-size: 14px;
+    text-transform: uppercase;
+    font-family: "Coiny",sans-serif;
+    padding-top: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 100px;
+}
+ul{
+    list-style: none;
+
+}
+.source:link,
+.source:visited {
+    color: #a8a19e;
+    margin-left: 12px;
+    transition:0.3s;
+}
+.source:hover,
+.source:active{
+    color: #3b82f6;
+}
+.btn{
+    font-family: 'coiny','sans-serif';
+    line-height: 1;
+    text-transform: uppercase;
+    font-size: 17px;
+    padding: 16px 0 13px ;
+    background-image: linear-gradient(135deg, #3b82f6,#16a34a,#eab308,#ef4444);
+    color: inherit;
+    border-radius: 100px;
+    transition: 0.3s;
+    border: none;
+    border-radius: 100px;
+}
+.btn:hover{
+    transform: rotate(-2deg);
+}
+.btn-large{
+    font-size: 20px;
+    padding: 20px 32px 17px;
+}
+.btn-all-catrgory{
+    margin-bottom: 16px;
+    width: 100%;
+
+}
+.btn-catrgory{
+    width: 100%;
+    background-image: none;
+} 
+.category{
+    margin: 16px;
+}
+.vote-btn button{
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    background-color: #78716c;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 6px 12px;border-radius: 100px;
+    
+}
+.vote-btn button:hover{
+    background-color: #292524;
+}
+.fact-form input,
+.fact-form select{
+    background-color: #78716c;
+    border: none;
+    border-radius: 100px;
+    color: inherit;
+    font-family: inherit;
+    padding: 16px;
+    font-size: 18px;
+    width: 220px;
+
+}
+.fact-form input::placeholder{
+    color: #eaddd3;
+}
+.fact-form input::first-child{
+    flex-grow: 1;
+}
+.fact-form{
+    display: flex;
+    align-items: center;
+    gap: 16;
+}
+.fact-form span{
+    font-weight: 600px;
+    font-size: 18px;
+    margin-right: 18px;
+
+}
+.hidden{
+    display: none;
+}
+/* reponsive */
+@media (max-width:1000px){
+    body{
+        padding: 32px 48px;
+
+    }
+    .fact-form{
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .fact-form input,
+    .fact-form select{
+        width: auto;
+    }
+    @media (max-width:900px){
+        .main{
+            grid-template-columns: 1fr;
+        }
+    }
+}

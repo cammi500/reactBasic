@@ -1,3 +1,13 @@
+const CATEGORIES = [
+  { name: "technology", color: "#3b82f6" },
+  { name: "science", color: "#16a34a" },
+  { name: "finance", color: "#ef4444" },
+  { name: "society", color: "#eab308" },
+  { name: "entertainment", color: "#db2777" },
+  { name: "health", color: "#14b8a6" },
+  { name: "history", color: "#f97316" },
+  { name: "news", color: "#8b5cf6" },
+];
 
 const initialFacts = [
   {
@@ -32,18 +42,23 @@ const initialFacts = [
     createdIn: 2015,
   },
 ];
+
 async function lodeFact(){
-  const res= await fetch("https://qgztzgvwwmijxiwwrvqg.supabase.co/rest/v1/fact" , {
+  const res = await fetch("https://qgztzgvwwmijxiwwrvqg.supabase.co/rest/v1/fact" , {
   headers: {
     apikey:
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFnenR6Z3Z3d21panhpd3dydnFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Nzc0MTc0NjYsImV4cCI6MTk5Mjk5MzQ2Nn0.aCIaOJl26mDNO-C0tX2BPQg6bg-a46rvxj3Yzz_dsEs",
     authorization:
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFnenR6Z3Z3d21panhpd3dydnFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Nzc0MTc0NjYsImV4cCI6MTk5Mjk5MzQ2Nn0.aCIaOJl26mDNO-C0tX2BPQg6bg-a46rvxj3Yzz_dsEs"
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFnenR6Z3Z3d21panhpd3dydnFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Nzc0MTc0NjYsImV4cCI6MTk5Mjk5MzQ2Nn0.aCIaOJl26mDNO-C0tX2BPQg6bg-a46rvxj3Yzz_dsEs",
   },
 }
 );
 const dataJSON = await res.json();
+
+//const filterData = dataJSON.filter((el)=> el.category ==="society");
 createFactElement(dataJSON);
+
+console.log(dataJSON);
 }
 lodeFact();
 
@@ -60,13 +75,16 @@ lodeFact();
 
  //in function is dynamtic
  function createFactElement(dataArray) {
-  const factHTML= dataArray.map ((data) => `
-        <li class="fact" >
+  const factHTML= dataArray
+  .map (
+    (data) => `
+        <li class="fact">
               <p >
                 ${data.text}
                 <a class="source" href="${data.source}" target="_blank">(Source)</a>
             </p>
-            <span class="tag" style="background-color: #3b82f6;">Technology</span>
+            <span class="tag" style="background-color:${CATEGORIES.find((cat) => cat.name === data.category).color}>${data.category}</span>
+            <div class="vote-btn">
             <div class="vote-btn">
                 <button>👍 <b>24</b> </button>
                 <button>🤯 <b>9</b> </button>
@@ -75,9 +93,9 @@ lodeFact();
         </li>
  `);
 
-factList.insertAdjacentHTML("afterbegin", factHTML);
-}
-createFactElement(dataJSON);
+factList.insertAdjacentHTML("afterbegin", factHTML.join(""));
+};
+
 
  btnOpen.addEventListener("click", function (){
   if (form.classList.contains("hidden")) {
@@ -227,3 +245,7 @@ createFactElement(dataJSON);
 // ];
 // const factAges =initialFacts.map((el)=> 2023 - el.createdIn);
 // console.log(factAges);
+
+// array loop filter
+// const newArr = [7,3,64,-23,11].filter((el) => el >10);
+//  console.log(newArr);
