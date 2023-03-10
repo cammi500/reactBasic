@@ -70,35 +70,49 @@ function NewFactForm(){
   return <form  className="fact-form ">Fact Form</form>
 }
 function CategoryFilter() {
-  return <aside>Category Filter</aside>
+  return (<aside>
+    <ul>
+    <li className="category"> <button className="btn btn-all-catrgory" >All</button></li>
+    {CATEGORIES.map((cat)=>(
+      <li key={cat.name} className="category">
+        <button className="btn btn-catrgory" style= {{backgroundColor: cat.color}}>{cat.name}</button></li>
+    ))}
+    </ul>
+  </aside>)
 }
 
-function FactList() {
+function FactList() {//parent
   const facts = initialFacts;
   return (
     <section>
       <ul className="fact-list">
       {facts.map((fact) => (
-      <li key={fact.id} className="fact" >
-      <p >
-         {fact.text}
-          <a className="source" href={fact.source} target="_blank">(Source)</a>
-      </p>
-      <span className="tag" style={{ backgroundColor:CATEGORIES.find(
-        (cat)=> cat.name === fact.category ).color,
-        }}>
-        {fact.category}
-      </span>
-      <div className="vote-btn">
-          <button>👍 {fact.votesInteresting} </button>
-          <button>🤯  {fact.votesMindblowing}</button>
-          <button>⛔️ {fact.votesFalse}</button>
-      </div>
-  </li>
+      <Fact key={fact.id} fact= {fact} test="25"/>//jsx 
      ) )}
       </ul>
-
+        <p>There are {facts.length} facts </p>
     </section>
   );
+}
+// props dataoneplace to one placetransfer
+function Fact(props) {//child
+
+  const {fact} = props;
+  return <li  className="fact" >
+  <p >
+     {fact.text}
+      <a className="source" href={fact.source} target="_blank"> (source)</a>
+  </p>
+  <span className="tag" style={{ backgroundColor:CATEGORIES.find(
+    (cat)=> cat.name === fact.category ).color,
+    }}>
+    {fact.category}
+  </span>
+  <div className="vote-btn">
+      <button>👍 {fact.votesInteresting} </button>
+      <button>🤯  {fact.votesMindblowing}</button>
+      <button>⛔️ {fact.votesFalse}</button>
+  </div>
+</li>
 }
 export default App;
