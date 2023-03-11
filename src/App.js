@@ -1,3 +1,4 @@
+import { Fragment,useState } from "react";
 import "./style.css";
 
 
@@ -47,24 +48,48 @@ const initialFacts = [
 ];
 
 function App(){
+  const[showForm ,setShowForm] = useState(false);
   return (
     <>
-      <header className="header">
-        <div className="logo">
-          <img src="logo.png" alt="My Website Logo" weight="68 " height="68"/>
-          <h1>React Project</h1>
-        </div>
-          <button className="btn btn-large btn-open">Share a face</button>
-      </header>
-      <NewFactForm/>
+      <Header showForm={showForm} setShowForm={setShowForm} />
+      {showForm ? <NewFactForm/>: null }
       <main className="main">
         <CategoryFilter/>
         <FactList/>
       </main>
     </>
-    
   );
 }
+
+function Header({showForm,setShowForm}) {
+  const appTitle="React Project";
+  return (
+    <header className="header">
+        <div className="logo">
+          <img src="logo.png" alt="My Website Logo" weight="68 " height="68"/>
+          <h1>{appTitle}</h1>
+        </div>
+          <button className="btn btn-large btn-open"
+          onClick={() => setShowForm((show) => !show)}>
+             {showForm?"close":"Share a face"}
+            </button>
+      </header>
+     
+  );
+}
+// function Counter(){
+//   // const [count, setCount] = useState(0);
+//    const [count,setCount]= useState(10);
+//   return (
+//   <div>
+//     <span style={{fontSize: "40px" }}>{count}</span>
+//     <button className="btn btn-large" 
+  
+//     </button>
+//   </div>
+//   );
+// }
+
 
 function NewFactForm(){
   return <form  className="fact-form ">Fact Form</form>
