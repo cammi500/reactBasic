@@ -46,7 +46,7 @@ const initialFacts = [
     createdIn: 2015,
   },
 ];
-
+//in react input lartime usestate thone
 function App(){
   const[showForm ,setShowForm] = useState(false);
   return (
@@ -92,7 +92,44 @@ function Header({showForm,setShowForm}) {
 
 
 function NewFactForm(){
-  return <form  className="fact-form ">Fact Form</form>
+ const[text,setText] =useState("");
+ const[source,setSource] =useState("");
+ const[category,setCategory] =useState("");
+
+ const textLength =text.length;
+
+function handleSubmit(e){
+ e.preventDefault();
+//  console.log(text,source,category);
+ if(text&&source&&category&& textLength<=200)
+console.log("This is data")
+//
+}
+
+
+  return (<form  className="fact-form " onSubmit={handleSubmit}>
+     <input type="text" placeholder="Share A Fact with the Words...."
+     value={text}
+     onChange={(e)=> setText(e.target.value)} />
+        <span className="spanner">{200- textLength}</span>
+        <input type="text" placeholder="Share A Fact with the Words"
+        value={source}
+        onChange={(e)=> setSource(e.target.value)}
+        />
+        <select name="" id="" 
+        value={category}
+        onChange={(e)=> setCategory(e.target.value)}
+        >
+            <option value="">Choose </option>
+            {CATEGORIES.map((cat)=>(
+                <option value={cat.name} >{cat.name.toUpperCase()}</option>
+            ))}
+       
+            <option value="science">Science </option>
+            <option value="finance">Finance</option>
+        </select>
+        <button className="btn btn-large">post</button>
+  </form>)
 }
 function CategoryFilter() {
   return (<aside>
