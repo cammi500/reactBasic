@@ -46,16 +46,17 @@ const initialFacts = [
     createdIn: 2015,
   },
 ];
-//in react input lartime usestate thone
+//in react input lartime usestate thone dom update
 function App(){
   const[showForm ,setShowForm] = useState(false);
+  const [facts,setFacts]=useState(initialFacts);
   return (
     <>
       <Header showForm={showForm} setShowForm={setShowForm} />
-      {showForm ? <NewFactForm/>: null }
+      {showForm ? <NewFactForm setFacts={setFacts}/>: null }
       <main className="main">
         <CategoryFilter/>
-        <FactList/>
+        <FactList facts={facts}/>
       </main>
     </>
   );
@@ -91,18 +92,47 @@ function Header({showForm,setShowForm}) {
 // }
 
 
-function NewFactForm(){
+function NewFactForm({setFacts}){
  const[text,setText] =useState("");
  const[source,setSource] =useState("");
  const[category,setCategory] =useState("");
 
  const textLength =text.length;
 
+ function isValidHttpUrl(string) {
+  let url;
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+console.log("http://example.com: "+isValidHttpUrl("https://example.com"));
+console.log("example.com: "+isValidHttpUrl("example.com"));
+
 function handleSubmit(e){
+  // browser
  e.preventDefault();
 //  console.log(text,source,category);
- if(text&&source&&category&& textLength<=200)
-console.log("This is data")
+ if(text&&isValidHttpUrl(source)&&category&& textLength<=200){
+
+ const newFact= {
+  id: Math.round(Math.round()*100000),
+      text,
+      source,
+      category,
+    votesInteresting: 0,
+    votesMindblowing: 0,
+    votesFalse: 0,
+    createdIn: new Date().getFullYear(),
+ };
+ setFacts((currentFacts)=>[newFact,...currentFacts]);
+ setText("")
+ setSource("")
+ setCategory("")
+}
+
 //
 }
 
@@ -143,8 +173,8 @@ function CategoryFilter() {
   </aside>)
 }
 
-function FactList() {//parent
-  const facts = initialFacts;
+function FactList({ facts }) {//parent
+
   return (
     <section>
       <ul className="fact-list">
