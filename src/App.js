@@ -1,4 +1,5 @@
-import { Fragment,useState } from "react";
+import { Fragment,useEffect,useState } from "react";
+import supabase from "./supabase";
 import "./style.css";
 
 
@@ -49,11 +50,20 @@ const initialFacts = [
 //in react input lartime usestate thone dom update
 function App(){
   const[showForm ,setShowForm] = useState(false);
-  const [facts,setFacts]=useState(initialFacts);
+  const [facts,setFacts]=useState([]);//lifemain 
+//empty array one time run function (onlyone)
+  useEffect(function (){
+    async function getFact() {
+      const { data: fact, error } = await supabase.from ("fact").select("*");
+     setFacts(fact);
+    }
+    getFact();
+
+  } ,[]);
   return (
     <>
       <Header showForm={showForm} setShowForm={setShowForm} />
-      {showForm ? <NewFactForm setFacts={setFacts}/>: null }
+      {showForm ? <NewFactForm setFacts={setFacts} setShowForm={setShowForm} />: null }
       <main className="main">
         <CategoryFilter/>
         <FactList facts={facts}/>
@@ -92,7 +102,7 @@ function Header({showForm,setShowForm}) {
 // }
 
 
-function NewFactForm({setFacts}){
+function NewFactForm({setFacts,setShowForm}){
  const[text,setText] =useState("");
  const[source,setSource] =useState("");
  const[category,setCategory] =useState("");
@@ -128,9 +138,11 @@ function handleSubmit(e){
     createdIn: new Date().getFullYear(),
  };
  setFacts((currentFacts)=>[newFact,...currentFacts]);
- setText("")
- setSource("")
- setCategory("")
+ setText("");
+ setSource("");
+ setCategory("");
+
+ setShowForm(false);
 }
 
 //
