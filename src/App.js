@@ -63,16 +63,18 @@ function App(){
       setIsLoading(true);
       let query =supabase.from ("fact").select("*");
       if (currentCategory!=="all")
-      query =supabase.eq("category",currentCategory)
-      const { data: fact, error } = await query
+      query =query.eq("category",currentCategory);
+      const { data: fact, error } = await query.limit(1000);
        
       //.order('votesInteresting',{ascending:true});//.limit(1000)
      setFacts(fact);
      setIsLoading(false);
     }
     getFact();
-
-  } ,[]);
+  } ,
+  [currentCategory]
+  )
+  ;
   return (
     <>
       <Header showForm={showForm} setShowForm={setShowForm} />
@@ -136,23 +138,26 @@ function NewFactForm({setFacts,setShowForm}){
 console.log("http://example.com: "+isValidHttpUrl("https://example.com"));
 console.log("example.com: "+isValidHttpUrl("example.com"));
 
-function handleSubmit(e){
+async function handleSubmit(e){
   // browser
  e.preventDefault();
 //  console.log(text,source,category);
- if(text&&isValidHttpUrl(source)&&category&& textLength<=200){
-
- const newFact= {
-  id: Math.round(Math.round()*100000),
-      text,
-      source,
-      category,
-    votesInteresting: 0,
-    votesMindblowing: 0,
-    votesFalse: 0,
-    createdIn: new Date().getFullYear(),
- };
- setFacts((currentFacts)=>[newFact,...currentFacts]);
+ if(text&&isValidHttpUrl(source)&&category&& textLength <=200){
+const {data :newFact,error}= await supabase.from("fact")
+  .insert([{text,source,category}])
+  .select();
+  console.log(newFact);
+//  const newFact= {
+//   id: Math.round(Math.round()*100000),
+//       text,
+//       source,
+//       category,
+//     votesInteresting: 0,
+//     votesMindblowing: 0,
+//     votesFalse: 0,
+//     createdIn: new Date().getFullYear(),
+//  };
+ setFacts((currentFacts)=>[newFact[0],...currentFacts]);
  setText("");
  setSource("");
  setCategory("");
@@ -188,16 +193,17 @@ function handleSubmit(e){
         <button className="btn btn-large">post</button>
   </form>)
 }
-function CategoryFilter() {
+function CategoryFilter({setCurrentCategory}) {
   return (<aside>
     <ul>
-    <li className="category"> <button className="btn btn-all-catrgory" 
-    onClick={({setCurrentCategory}) => setCurrentCategory("all")}
+    <li className="category"> <button 
+    className="btn btn-all-catrgory" 
+    onClick={() => setCurrentCategory("all")}
     >All</button></li>
     {CATEGORIES.map((cat)=>(
       <li key={cat.name} className="category">
         <button className="btn btn-catrgory"
-          onClick={({setCurrentCategory}) => setCurrentCategory(cat.name)}
+          onClick={() => setCurrentCategory(cat.name)}
         style= {{backgroundColor: cat.color}}>{cat.name}</button></li>
     ))}
     </ul>
@@ -205,7 +211,10 @@ function CategoryFilter() {
 }
 
 function FactList({ facts }) {//parent
-
+if(facts.length===0){
+  return <span className="message">No fact for this category yet creat first one</span>
+}
+ else{
   return (
     <section>
       <ul className="fact-list">
@@ -216,6 +225,7 @@ function FactList({ facts }) {//parent
         <p>There are {facts.length} facts </p>
     </section>
   );
+ }
 }
 // props dataoneplace to one placetransfer
 function Fact(props) {//child
